@@ -56,6 +56,10 @@ dependencies {
   testImplementation "net.bytebuddy:byte-buddy:${versions.bytebuddy}"
 }
 
+tasks.named("dependencyLicenses").configure {
+  mapping from: /bc.*/, to: 'bouncycastle'
+}
+
 tasks.withType(CheckForbiddenApis).configureEach {
   //client does not depend on server, so only jdk and http signatures should be checked
   replaceSignatureFiles('jdk-signatures', 'http-signatures')

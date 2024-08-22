@@ -34,6 +34,7 @@ package org.opensearch.tools.launchers;
 
 import org.opensearch.tools.java_version_checker.JavaVersion;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +42,7 @@ import java.util.stream.Collectors;
 
 final class SystemJvmOptions {
 
-    static List<String> systemJvmOptions() {
+    static List<String> systemJvmOptions(final Path config) {
         return Collections.unmodifiableList(
             Arrays.asList(
                 /*
@@ -79,10 +80,15 @@ final class SystemJvmOptions {
                 // log4j 2
                 "-Dlog4j.shutdownHookEnabled=false",
                 "-Dlog4j2.disable.jmx=true",
-
+                loadJavaSecurityProperties(config),
                 javaLocaleProviders()
             )
         ).stream().filter(e -> e.isEmpty() == false).collect(Collectors.toList());
+    }
+
+    private static String loadJavaSecurityProperties(final Path config) {
+        var securityFile = config.resolve("fips_java.security");
+        return "-Djava.security.properties=" + securityFile.toAbsolutePath();
     }
 
     private static String maybeShowCodeDetailsInExceptionMessages() {
