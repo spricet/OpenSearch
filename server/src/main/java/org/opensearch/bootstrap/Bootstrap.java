@@ -197,9 +197,9 @@ final class Bootstrap {
             BootstrapSettings.CTRLHANDLER_SETTING.get(settings)
         );
 
-        var isFipsEnabled = FipsSettings.FIPS_ENABLED.get(settings);
+        Boolean isFipsEnabled = FipsSettings.FIPS_ENABLED.get(settings);
         try {
-            var isRunningInFipsMode = CryptoServicesRegistrar.setApprovedOnlyMode(isFipsEnabled);
+            boolean isRunningInFipsMode = CryptoServicesRegistrar.setApprovedOnlyMode(isFipsEnabled);
             if (isRunningInFipsMode) {
                 LogManager.getLogger(Bootstrap.class).info("running in FIPS mode");
             }
