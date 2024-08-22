@@ -123,6 +123,11 @@ dependencies {
   // precentil ranks aggregation
   api 'org.hdrhistogram:HdrHistogram:2.1.9'
 
+  // bouncyCastle
+  api "org.bouncycastle:bc-fips:${versions.bouncycastle_jce}"
+  api "org.bouncycastle:bctls-fips:${versions.bouncycastle_tls}"
+  api "org.bouncycastle:bcutil-fips:${versions.bouncycastle_util}"
+
   // lucene spatial
   api "org.locationtech.spatial4j:spatial4j:${versions.spatial4j}", optional
   api "org.locationtech.jts:jts-core:${versions.jts}", optional
@@ -176,6 +181,10 @@ tasks.named("forbiddenPatterns").configure {
     exclude '**/*.dic'
     exclude '**/*.binary'
     exclude '**/*.st'
+}
+
+tasks.named("dependencyLicenses").configure {
+  mapping from: /bc.*/, to: 'bouncycastle'
 }
 
 tasks.named("testingConventions").configure {
